@@ -1,0 +1,617 @@
+# # # import numpy as np
+# # # import statistics
+
+# # # def fun(N):
+# # #     l = list()
+# # #     l1 = list()
+# # #     l2 = list()
+# # #     E = 0
+# # #     for i in range(0,N):
+# # #         u = np.random.uniform(0,1)
+# # #         x = (np.exp(np.sqrt(u)) + np.exp(np.sqrt(1-u)))/2  
+# # #         l.append(u)
+# # #         l1.append(x)
+# # #         l2.append(np.exp(np.sqrt(u)))
+# # #         E += x
+# # #     s = 0
+# # #     for i in l:
+# # #         s += (i-E/N)**2
+# # #     s = np.sqrt(s/(N-1))
+
+# # #     print((np.var(l2)-np.var(l1))*100/np.var(l2))
+# # #     print(E/N - 1.96*(s/np.sqrt(N)))
+
+
+# # # fun(100)
+
+# # # import numpy as np
+# # # import matplotlib.pyplot as plt
+# # # from scipy.stats import gamma
+
+# # # paths = 10
+# # # count = 5000
+# # # interval = 5/count
+# # # sd = [0.2,0.5]
+# # # mu = [-0.9,0.9]
+# # # sample = []
+# # # t = []
+# # # t.append(0)
+# # # sample.append(5)
+# # # for x in sd:
+# # #     for y in mu:
+# # #         for z in range(1,100):
+# # #             for i in range(1,count+1):
+# # #                 t.append(interval*i)
+# # #                 sample.append(sample[i-1]*(np.exp((y-(x**2)/2)*interval + x*(np.random.uniform(0, 1))*pow(interval, 0.5))))
+# # #                 #print(sample[j][i])
+# # #             plt.plot(t,sample)
+# # #         print("mean = ", np.mean(sample))
+# # #         print("variance = ", x * x)
+# # #         print("Expectation of S(5) is ", (0 / 1000), "\nTheoritical Expectaion ", 5*np.exp(y*5))
+# # #         print("Variance of S(5) is ", (0 / 1000), "\nTheoritical Variance ", pow(5,2)*(np.exp(y*10))*(np.exp(pow(x, 2)*5) - 1))
+# # #         plt.show()
+
+# # # lab 7 
+# # # Q1
+# # import math
+# # from numpy import random
+
+
+# # def expected(M):
+# #     print("For M: {}".format(M))
+# #     E = 0
+
+# #     s = 0
+# #     l = list()
+# #     for i in range(0, M):
+# #         x = random.uniform(0, 1)
+# #         E += math.exp(math.sqrt(x))
+
+# #         l.append(x)
+# #     for j in l:
+# #         s += (j - E / M) * (j - E / M)
+# #     s = math.sqrt(s / (M - 1))
+
+# #     print("95% confidence interval is (", (E / M - 1.96 * (s / math.sqrt(M))), ",",
+# #           (E / M + 1.96 * (s / (math.sqrt(M)))), ")")
+
+
+# # def main():
+# #     print(expected(100))
+
+# #     print(expected(1000))
+
+# #     print(expected(10000))
+
+# #     print(expected(100000))
+
+
+# # if __name__ == "__main__":
+# #     main()
+
+# # # Q2
+# # import math
+# # from numpy import random
+# # import statistics
+
+
+# # def expected(M):
+# #     print("For M: {}".format(M))
+# #     E1 = 0
+# #     s = 0
+# #     L = list()
+# #     l = list()
+# #     l1 = list()
+# #     for i in range(0, M):
+# #         x = random.uniform(0, 1)
+# #         E1 += (math.exp(math.sqrt(x)) + math.exp(math.sqrt(1-x)))/2
+# #         L.append(x)
+# #         l.append(math.exp(math.sqrt(x)))
+# #         l1.append((math.exp(math.sqrt(x)) + math.exp(math.sqrt(1-x)))/2)
+
+# #     for j in L:
+# #         s += (j - E1 / M) * (j - E1 / M)
+# #     s = math.sqrt(s / (M - 1))
+
+
+# #     print('Variance Reduction Percentage : {}'.format(100*(((statistics.variance(l))-(statistics.variance(l1)))/(statistics.variance(l)))))
+# #     print("95% confidence interval is (", (E1/M - 1.96 * (s / math.sqrt(M))), ",", (E1/M + 1.96 * (s / (math.sqrt(M)))), ")")
+
+
+# # def main():
+# #     print(expected(100))
+
+# #     print(expected(1000))
+
+# #     print(expected(10000))
+
+# #     print(expected(100000))
+
+
+# # if __name__ == "__main__":
+# #     main()
+
+# # # Q3
+# # import math
+# # import numpy as np
+# # from numpy import random
+# # import statistics
+
+
+# # def expected(M):
+# #     print("For M: {}".format(M))
+# #     s = 0
+# #     l2 = list()
+# #     L = list()
+# #     l = list()
+# #     l1 = list()
+# #     for i in range(0, M):
+# #         x = random.uniform(0, 1)
+# #         l.append(math.exp(math.sqrt(x)))
+# #         y = random.uniform()
+# #         l1.append(math.sqrt(y))
+# #         l2.append(x)
+
+# #     c = -(np.cov(l1,l)[0][1])/np.var(l1)
+# #     m = np.mean(l1)
+# #     for i in range(M):
+# #         L.append(l[i] + c*(l1[i]-m))
+
+# #     mm = np.mean(L)
+# #     for i in range(M):
+# #         s += (L[i] - mm)**2
+
+# #     s = np.sqrt(s / (M - 1))
+
+# #     print('Variance Reduction Percentage : {}'.format(100*(((statistics.variance(l))-(statistics.variance(L)))/(statistics.variance(l)))))
+# #     print("95% confidence interval is (", (mm - 1.96 * (s / math.sqrt(M))), ",",(mm + 1.96 * (s / (math.sqrt(M)))), ")")
+
+
+# # def main():
+# #     print(expected(100))
+
+# #     print(expected(1000))
+
+# #     print(expected(10000))
+
+# #     print(expected(100000))
+
+
+# # if __name__ == "__main__":
+# #     main()
+
+# # # Lab 8
+# # # Q1
+# # import numpy as np
+# # from scipy.stats import norm
+
+# # def randomGenerator():
+# #     return np.random.uniform()
+
+# # def F(N):
+# #     Z = []
+# #     Z0 = []    #for antithetic approach
+# #     for i in range(N):
+# #         u = randomGenerator()
+# #         y = -np.log(1-u)
+# #         z1 = norm.cdf((y-1)/2)
+# #         Z.append(z1)
+# #         #Further reduction of variance by using antithetic Variables
+# #         y1 = -np.log(1-u)
+# #         y2 = -np.log(u)
+# #         z1 = norm.cdf((y1-1)/2)
+# #         z2 = norm.cdf((y2-1)/2)
+# #         z0 = (z1+z2)/2
+# #         Z0.append(z0)
+
+
+# #     print("Esimate using Inversion Method for N = ",N,"is: ", np.mean(Z))
+# #     print("Variance using Inversion Method for N = ",N,"is: ", np.var(Z))
+
+
+# #     #mean and variance using antithetic varaibles method
+# #     print("Estimate using antithetic approach for N =",N,"is :", np.mean(Z0))
+# #     print("Variance using antithetic approach for N =",N,"is :", np.var(Z0))
+# #     print()
+
+    
+# # F(100)
+# # F(1000)
+# # F(10000)
+
+# # # Q2
+# # import numpy as np
+
+# # def randomGenerator():
+# #     return np.random.uniform()
+
+# # def F(N):
+# #     Y = []
+# #     Y1 = []
+# #     Y2 = []
+# #     Y3 = []
+# #     for i in range(N):
+# #         #Calculating E(Y) using inverse method
+# #         #y = 1-e^-y
+# #         u = randomGenerator() 
+# #         y = -np.log(1-u)
+# #         Y.append(y)
+        
+# #         #Calculating E(Y) using Importance Sampling Method
+# #         #x0 = -np.log((1-u)/(1-k)) and k belongs to [0, 1)
+# #         #y0 = x0*np.exp((-k*x0)/(1-k))
+# #         x1 = -np.log(1-u)/(1-0.1)     #when  k = 0.1
+# #         y1 = x1*np.exp(-0.1*x1)/(1-0.1)   
+
+# #         x2 = -np.log(1-u)/(1-0.2)     #when  k = 0.2
+# #         y2 = x2*np.exp(-0.2*x2)/(1-0.2)
+
+# #         x3 = -np.log(1-u)/(1-0.3)     #when  k = 0.3
+# #         y3 = x3*np.exp(-0.3*x3)/(1-0.3)
+# #         Y1.append(y1)
+# #         Y2.append(y2)
+# #         Y3.append(y3)
+
+         
+
+# #     #mean and variance using Inverse Method
+# #     print("Mean using Inverse Method for N = ",N,"is :", np.mean(Y))
+# #     print("Variance using Inverse Method for N = ",N,"is :", np.var(Y))
+# #     #mean and variance using Importance Sampling Method
+# #     print("Mean using Importance sampling method for N = ",N,"and k = 0.1 is: ", np.mean(Y1))
+# #     print("Variance using Importance sampling method for N = ",N,"and k = 0.1 is: ", np.var(Y1))
+# #     print("Reduction in Variance for k = 0.1 is", np.var(Y)-np.var(Y1))
+# #     print("Mean using Importance sampling method for N = ",N,"and k = 0.2 is: ", np.mean(Y2))
+# #     print("Variance using Importance sampling method for N = ",N,"and k = 0.2 is: ", np.var(Y2))
+# #     print("Reduction in Variance for k = 0.2 is", np.var(Y)-np.var(Y2))
+# #     print("Mean using Importance sampling method for N = ",N,"and k = 0.3 is: ", np.mean(Y3))
+# #     print("Variance using Importance sampling method for N = ",N,"and k = 0.3 is: ", np.var(Y3))
+# #     print("Reduction in Variance for k = 0.3 is", np.var(Y)-np.var(Y3))
+# #     print()
+    
+# # F(100)
+# # # F(1000)
+# # # F(10000)
+
+# # # Lab9
+# # # Q1
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# path = 10
+# count = 5000
+# interval = 5/5000
+# sample = [[0]*path]*(count+1)
+# for i in range(0,path):
+#     sample[0][i] = 0
+#     for j in range(1,count+1):
+#         sample[j][i] = sample[j-1][i] + ((interval)**0.5)*np.random.normal()
+
+# plt.plot(sample)
+# plt.show()
+
+# # Q2
+# paths<-10
+# count<-5000
+# interval<-5/count
+# sd<-0.3
+# mean<-0.06
+# main_sample<-matrix(0,nrow=(count+1), ncol=paths)
+# png("question2.png")
+# for(i in 1:paths){
+# 	main_sample[1,i]<-5
+# 	z_sample<-rnorm(count+1)
+# 	for(j in 2:(count+1)){
+# 		main_sample[j,i]<-main_sample[j-1,i]+mean*(interval)+((interval)^.5)*z_sample[j]*sd
+# 	}
+# }
+# cat("E[W(2)] = ",mean(main_sample[2001,]),"\n")
+# cat("E[W(5)] = ",mean(main_sample[5001,]),"\n")
+# matplot(main_sample,xlab="Time",ylab="Path")
+
+# # Q3
+
+# paths<-10
+# count<-5000
+# interval<-5/count
+# sigma<-function(x){
+# 	return (0.012+0.0138*x+0.00125*x*x)
+# }
+# mean1<-function(x){
+# 	return (0.0325-0.05*x)
+# }
+# main_sample<-matrix(0,nrow=(count+1), ncol=paths)
+# png("question3.png")
+# for(i in 1:paths){
+# 	main_sample[1,i]<-5
+# 	z_sample<-rnorm(count+1)
+# 	for(j in 2:(count+1)){
+# 		main_sample[j,i]<-main_sample[j-1,i]+mean1((j-2)*(interval))*interval+((interval)^.5)*z_sample[j]*sigma((j-2)*interval)
+# 	}	
+# }
+# cat("E[W(2)] = ",mean(main_sample[2001,]),"\n")
+# cat("E[W(5)] = ",mean(main_sample[5001,]),"\n")
+# matplot(main_sample,xlab="Time",ylab="Path")
+
+# # lab 10
+
+# paths<-10
+# count<-5000
+# interval<-5/count
+# sd<-c(0.3,0.4)
+# mean<-c(-0.06,0.06)
+
+# for(x in sd){
+# for(y in mean){
+# main_sample<-matrix(0,nrow=(count+1), ncol=paths)
+# for(i in 1:paths){
+# main_sample[1,i]<-5
+# for(j in 2:(count+1)){
+# main_sample[j,i]<-main_sample[j-1,i]*exp((y-(x^2)/2)*interval+x*rnorm(1)*(interval)^.5)
+# }
+# }
+# string<-paste("question1-mean=",toString(y),"variance=",toString(x^2),".png",sep="")
+# png(string)
+# matplot(main_sample,xlab="Time",ylab="Path")
+# }																				
+# }
+
+# Q2
+paths<-1000
+count<-5000
+interval<-5/count
+sd<-c(0.3,0.4)
+mean<-c(-0.06,0.06)
+exp_mean<-function(s0,mean){
+	return(s0*exp(mean*5))
+}
+exp_variance<-function(s0,mean,sd){
+	return((s0^2)*exp(2*mean*5)*(exp(5*sd^2)-1))
+}
+for(x in sd){
+for(y in mean){
+main_sample<-matrix(0,nrow=(count+1), ncol=paths)
+for(i in 1:paths){
+main_sample[1,i]<-5
+for(j in 2:(count+1)){
+main_sample[j,i]<-main_sample[j-1,i]*exp((y-(x^2)/2)*interval+x*rnorm(1)*(interval)^.5)
+}
+}
+cat("Mean is: ",y,"\n")
+cat("Variance is: ",x,"\n")
+cat("Theoretical Expectation of S(5): ",exp_mean(5,y),"\n")
+cat("Observed Expectation of S(5): ",mean(main_sample[5001,]),"\n")
+cat("Theoretical Variance of S(5): ",exp_variance(5,y,x),"\n")
+cat("Observed Variance of S(5): ",var(main_sample[5001,]),"\n")
+}	
+cat("\n")																			
+}
+
+# S(ti+1) = S(ti)*exp([µ - (sigma^2)/2](ti+1 - ti) + sigma((ti+1 - ti)^0.5)*Zi+1)
+
+import pandas as pd 
+import matplotlib.pyplot as plt 
+import numpy as np 
+import seaborn as sns
+
+mu1 = 0.06
+mu2 = -0.06
+sigma = [0.5, 0.8]
+
+T = 5
+n = 10000
+t = T/n
+S_0 = 5
+
+def calculate(x, mu, sigma):
+    z = np.random.normal(0, 1, 1)
+    val = x*np.exp((mu - (pow(sigma,2) / 2))*t + sigma*pow(t, 0.5)*z[0])
+
+    return val
+
+def generate_seq(mu, sigma):
+    ts = []
+    ts.append(0)
+    S = []
+    S.append(S_0)
+
+    for i in range(1, n + 1):
+        ts.append(t*i)
+
+        s = calculate(S[i - 1], mu, sigma)
+        S.append(s)
+
+    return ts, S 
+
+#for mu = 0.06, sigma = 0.5
+print("For mean 0.06, std deviation 0.5, S[0] = 5")
+for j in range(1, 10):
+    ts, S = generate_seq(mu1, sigma[0])
+    plt.plot(ts, S)
+plt.show()
+print("\n\n")
+
+
+#for mu = 0.06, sigma = 0.8
+print("For mean 0.06, std deviation 0.8, S[0] = 5")
+for j in range(1, 10):
+    ts, S = generate_seq(mu1, sigma[1])
+    plt.plot(ts, S)
+plt.show()
+print("\n\n")
+
+
+#for mu = -0.06, sigma = 0.5
+print("For mean -0.06, std deviation 0.5, S[0] = 5")
+for j in range(1, 10):
+    ts, S = generate_seq(mu2, sigma[0])
+    plt.plot(ts, S)
+
+plt.show()
+print("\n\n")
+
+
+#for mu = -0.06, sigma = 0.8
+print("For mean -0.06, std deviation 0.8, S[0] = 5")
+for j in range(1, 10):
+    ts, S = generate_seq(mu2, sigma[1])
+    plt.plot(ts, S)
+    # print(S[10000])
+
+plt.show()
+print("\n\n\n")
+
+
+print("Actual Distribution")
+print("\n\n")
+z = np.exp(np.random.normal((mu1 - (sigma[0]**2)/2) *(5), (sigma[0]) * np.sqrt(5), size=(500,)))
+sns.kdeplot(z)
+plt.show()
+
+print("Generating a large number of sample paths, mu = 0.06, sigma = 0.5, S[0] = 5")
+S_5 = 0
+var_5 = 0
+theoE = S_0*np.exp(mu1*5)
+theoVar = pow(S_0,2)*(np.exp(mu1*10))*(np.exp(pow(sigma[0], 2)*5) - 1)
+for j in range(1, 1000):
+    ts, S = generate_seq(mu1, sigma[0])
+    # print(S_5, " ", S[10000])
+    S_5 = S_5 + S[10000]
+    var_5 = var_5 + pow((S[10000] - theoE), 2)
+    plt.plot(ts, S)
+
+plt.show()
+print("Expectation of S(5) is ", (S_5 / 1000), "\nTheoritical Expectaion ", theoE)
+print("Variance of S(5) is ", (var_5 / 1000), "\nTheoritical Variance ", theoVar)
+
+# Lab 11
+# Q1
+lcg<-function(a,x,m,count){
+	u<-c()
+	for(i in 1:count){
+		u[i]=x/m
+		x=(x*a)
+		x=x%%m
+	}
+	return(u)
+}
+vanDerCorput<-function(n,base){
+	sum=0
+	temp=1/base
+	while(n!=0){
+		sum=sum+(n%%base)*temp
+		n=n%/%base
+		temp=temp/base
+	}
+	return(sum)
+}
+count<-25
+cat("Number of sequence elements= ",count,"\n")
+sample<-c()
+for(i in 1:count){
+	sample[i]<-vanDerCorput(i,2)
+	cat(sample[i],"\n")
+}
+count<-1000
+sample<-c()
+sample1<-c()
+png(paste("question1_",count,".png",sep=""))
+for(i in 1:count){
+	sample[i]<-vanDerCorput(i,2)
+	if(i>1){
+		sample1[i-1]<-sample[i]
+	}
+}
+sample1[count]<-vanDerCorput(count+1,2)
+plot(sample,sample1)
+counts<-c(100,100000)
+x<-23
+a<-16807
+m<-2^31-1
+for(count in counts){
+	sample<-c()
+	for(i in 1:count){
+		sample[i]<-vanDerCorput(i,2)
+	}
+	sample1<-lcg(a,x,m,count)
+	png(paste("question1_",toString(count),".png",sep=""))
+	par(mfrow=c(1,2))
+	hist(sample,main="Van Der Corput",breaks=20,col="blue",ylab="Frequency",)
+	hist(sample1,main="LCG",breaks=20,col="red",ylab="Frequency",)
+
+# Q2
+vanDerCorput<-function(n,base){
+	sum=0
+	temp=1/base
+	while(n!=0){
+		sum=sum+(n%%base)*temp
+		n=n%/%base
+		temp=temp/base
+	}
+	return(sum)
+}
+
+counts<-c(100,100000)
+for(count in counts){
+	sample2<-c()
+	sample3<-c()
+	for(i in 1:count){
+		sample2[i]<-vanDerCorput(i,2)
+		sample3[i]<-vanDerCorput(i,3)
+	}
+	png(paste("question2_",count,".png",sep=""))
+	plot(sample2,sample3,xlab="Base 2",ylab="Base 3")vanDerCorput<-function(n,base){
+	sum=0
+	temp=1/base
+	while(n!=0){
+		sum=sum+(n%%base)*temp
+		n=n%/%base
+		temp=temp/base
+	}
+	return(sum)
+}
+
+counts<-c(100,100000)
+for(count in counts){
+	sample2<-c()
+	sample3<-c()
+	for(i in 1:count){
+		sample2[i]<-vanDerCorput(i,2)
+		sample3[i]<-vanDerCorput(i,3)
+	}
+	png(paste("question2_",count,".png",sep=""))
+	plot(sample2,sample3,xlab="Base 2",ylab="Base 3")
+
+# Lab 12
+# Q1
+import numpy as np
+import math
+from matplotlib import pyplot as plt
+import scipy.stats
+
+def metropolis_hasting(N):
+    l = list()
+    for i in range(N):
+        x0 = 1
+        j = 0
+        while j<N: 
+            x = x0 + np.random.normal()
+            a = scipy.stats.gamma.pdf(x,2)/scipy.stats.gamma.pdf(x0,2)
+            if a >= 1:
+                x0 = x
+                j = j+1
+            else:
+                if np.random.uniform() < a:
+                    x0 = x
+                    j = j + 1
+        l.append(x0)
+
+    plt.hist(l)
+    plt.show()    
+    print("Mean for N =", N, "is: ", np.mean(l))
+
+
+for N in [100,200,500]:
+    metropolis_hasting(N)
+
+# Q2
